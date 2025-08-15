@@ -1,2 +1,4 @@
-Get http://localhost:5020/
+GET http://localhost:5020
 
+###
+GET http://localhost:5020/hello
