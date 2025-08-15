@@ -26,3 +26,6 @@ string HelloMethod()
 
     return "Read from FILE:\n\n" + message;
 }
+
+
+//az webapp up --name dieu-webapi -g test1 --location westeurope --sku B1 --os-type linux
