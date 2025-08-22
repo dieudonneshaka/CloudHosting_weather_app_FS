@@ -4,4 +4,4 @@ GET http://localhost:5020
 GET http://localhost:5020/hello
 
 ###
-GET http://dieu-webapi.azurewebsites.net
+GET http://dieu-webapi.azurewebsites.net/hello
