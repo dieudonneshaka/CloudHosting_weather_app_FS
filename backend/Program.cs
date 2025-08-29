@@ -1,3 +1,8 @@
+string path = Directory.GetCurrentDirectory();
+
+Console.WriteLine("The current directory is {0}", path);
+
+
 var builder = WebApplication.CreateBuilder(args);
 // 2
 // We may need to configure builder before building (as an exaxample add controllers etc.)
@@ -21,17 +26,19 @@ Console.WriteLine("this shouls never happen... (is impossible, should be at leas
 
 string HelloMethod()
 {
-    var helloFolder = new DirectoryInfo(Directory.GetCurrentDirectory());
-    var helloPath = Path.Combine(helloFolder.FullName, "hello.txt");
+    //var helloFolder = new DirectoryInfo(Directory.GetCurrentDirectory());
+    //var helloPath = Path.Combine(helloFolder.FullName, "hello.txt");
+   var assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+    var filepath = Path.Combine(assemblyFolder ?? "", "hello.txt");
 
 // print to console absolute path (fullname)
 
-    var file = new FileInfo("hello.txt");
-    var filePath = file.FullName;
-    Console.WriteLine($"Reading hello from: {filePath}");
+   // var file = new FileInfo("hello.txt");
+    // filePath = file.FullName;
+    Console.WriteLine($"Reading hello from: {filepath}");
 
 
-    var message = File.ReadAllText("hello.txt"); 
+    var message = File.ReadAllText(filepath); 
 
     return "Read from FILE:\n\n" + message;
 }
