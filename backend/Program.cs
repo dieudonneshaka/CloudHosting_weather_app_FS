@@ -1,3 +1,13 @@
+Console.WriteLine(@$"Current Directory:
+
+{Directory.GetCurrentDirectory()}");
+
+
+Console.WriteLine(@$"Executing Assembly:
+
+{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}");
+
+
 string path = Directory.GetCurrentDirectory();
 
 Console.WriteLine("The current directory is {0}", path);
@@ -26,18 +36,32 @@ Console.WriteLine("this shouls never happen... (is impossible, should be at leas
 
 string HelloMethod()
 {
+    // Look for all asset in the same forlder, where the program (dill's etc.)
+    // (usually bin/debug/net9.0 net)
+
     //var helloFolder = new DirectoryInfo(Directory.GetCurrentDirectory());
     //var helloPath = Path.Combine(helloFolder.FullName, "hello.txt");
-   var assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+    var assemblyFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
     var filepath = Path.Combine(assemblyFolder ?? "", "hello.txt");
+    
+    
 
 // print to console absolute path (fullname)
 
-   // var file = new FileInfo("hello.txt");
+    // var file = new FileInfo("hello.txt");
     // filePath = file.FullName;
     Console.WriteLine($"Reading hello from: {filepath}");
 
+    if (!File.Exists(filepath))
+    {
+        // File nnot found
+        return "File not found: " + filepath;
+    }
+    // File was found ok print debug info to console absolute path (fullname)
+    // file was found ok print debug 
 
+    Console.WriteLine($"File found: {filepath}");
     var message = File.ReadAllText(filepath); 
 
     return "Read from FILE:\n\n" + message;
