@@ -9,7 +9,6 @@ branches:
 
 jobs:
 CloudHosting
-runs-on: azure-latest
 
 steps:
 -uses: actions/checkout@v3
