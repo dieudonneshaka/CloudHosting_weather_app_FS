@@ -1,35 +1,50 @@
-name: CloudHosting
+name: CI/CD Workflow
 
+# Trigger workflow on push or pull request to main branch
 on:
-  workflow_dispatch:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
 jobs:
-  CloudHosting:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3   # Check out your code
 
-      # 2. Setup .NET SDK
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '9.0'
+    # Example: Node.js setup (for frontend React)
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
 
-      # 3. Restore dependencies
-      - name: Restore
-        run: dotnet restore ./currentTimeservice.sln   # <-- fixed
+    - name: Install dependencies
+      run: npm install
 
-      # 4. Build the solution
-      - name: Build
-        run: dotnet build ./currentTimeservice.sln --configuration Release   # <-- fixed
+    - name: Run frontend tests
+      run: npm test -- --watchAll=false
 
-      # 5. Publish the project
-      - name: Publish
-        run: dotnet publish ./currentTimeservice.sln -c Release -o publish_output   # <-- fixed
+    # Example: .NET setup (for backend)
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'
 
+    - name: Restore .NET dependencies
+      run: dotnet restore ./backend
+
+    - name: Build .NET project
+      run: dotnet build ./backend --configuration Release --no-restore
+
+    - name: Run .NET tests
+      run: dotnet test ./backend --no-build --verbosity normal
+
+    # Optional: Deploy step
+    # - name: Deploy to GitHub Pages / Azure / Netlify
+    #   run: |
+    #     echo "Add deployment commands here"
