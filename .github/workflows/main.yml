@@ -1,25 +1,34 @@
-Name: CloudHosting
+name: CloudHosting
 
 on:
-
-workflow_dispatch:
-push:
-branches:
-- main 
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-CloudHosting:
-runs-on:  ubuntu-latest
-steps:
--uses: actions/checkout@v3
+  CloudHosting:
+    runs-on: ubuntu-latest
 
--name: setup .NET
-uses: actions/setup-dotnet@v3
-with:
-dotnet-version: '9.0'
+    steps:
+      # 1. Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-name: restore
-run: dotnet restore ./currentIimeservice.sln --configuration release
+      # 2. Setup .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0'
 
--name: CloudHosting
-run: dotnet CloudHosting ./currentIimeservice.sln --configuration release
+      # 3. Restore dependencies
+      - name: Restore
+        run: dotnet restore ./currentIimeservice.sln --configuration Release
+
+      # 4. Build the solution
+      - name: Build
+        run: dotnet build ./currentIimeservice.sln --configuration Release
+
+      # 5. (Optional) Run your project or publish
+      - name: Run CloudHosting
+        run: dotnet run --project ./currentIimeservice.sln --configuration Release
