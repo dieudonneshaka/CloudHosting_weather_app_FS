@@ -1,0 +1,26 @@
+Name: CloudHosting
+
+on:
+
+workflow_dispatch:
+push:
+branches:
+- main 
+
+jobs:
+CloudHosting
+runs-on: azure-latest
+
+steps:
+-uses: actions/checkout@v3
+
+-name: setup .NET
+uses: actions/setup-dotnet@v3
+with:
+dotnet-version: '9.0'
+
+name: restore
+run: dotnet restore ./currentIimeservice.sln --configuration release
+
+-name: CloudHosting
+run: dotnet CloudHosting ./currentIimeservice.sln --configuration release
